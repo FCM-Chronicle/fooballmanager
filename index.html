@@ -176,7 +176,7 @@
         }
 
         .main-container {
-            display: none;
+            display: block; /* 기본적으로 표시되도록 수정 */
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
@@ -611,7 +611,13 @@
 
         function showMainApp() {
             document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
+            const mainApp = document.getElementById('mainApp');
+            const mainContainer = document.querySelector('.main-container');
+            
+            mainApp.style.display = 'block';
+            if (mainContainer) {
+                mainContainer.style.display = 'block';
+            }
         }
 
         // 테마 토글
