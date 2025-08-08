@@ -658,6 +658,13 @@
         function renderNotes() {
             const grid = document.getElementById('notesGrid');
             
+            console.log('렌더링 시작 - 노트 개수:', notes.length); // 디버깅용
+            
+            if (!grid) {
+                console.error('notesGrid 요소를 찾을 수 없습니다');
+                return;
+            }
+            
             if (notes.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
@@ -668,13 +675,18 @@
                 return;
             }
 
-            grid.innerHTML = notes.map(note => `
+            // 노트들을 최신순으로 정렬
+            const sortedNotes = [...notes].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            
+            grid.innerHTML = sortedNotes.map(note => `
                 <div class="note-card" onclick="openNote('${note.id}')">
-                    <div class="note-title">${note.title || '제목 없음'}</div>
-                    <div class="note-preview">${note.content || '내용 없음'}</div>
+                    <div class="note-title">${(note.title || '제목 없음').substring(0, 50)}</div>
+                    <div class="note-preview">${(note.content || '내용 없음').substring(0, 100)}</div>
                     <div class="note-date">${formatDate(note.updatedAt)}</div>
                 </div>
             `).join('');
+            
+            console.log('렌더링 완료 - HTML 생성됨'); // 디버깅용
         }
 
         function createNewNote() {
